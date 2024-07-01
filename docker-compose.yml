@@ -1,0 +1,35 @@
+services:
+  wordpress-website:
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "3000:80"
+    environment:
+      WORDPRESS_DB_HOST: wordpress-database
+      WORDPRESS_DB_USER: rajat
+      WORDPRESS_DB_PASSWORD: rajat
+      WORDPRESS_DB_NAME: mydb
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      - milkyway
+
+  wordpress-database:
+    image: mysql:5.7
+    platform: linux/x86_64 # Platform specification for M1 chip
+    environment:
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: rajat
+      MYSQL_PASSWORD: rajat
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - milkyway
+
+volumes:
+  wordpress-data:
+  db:
+
+networks:
+  milkyway:
